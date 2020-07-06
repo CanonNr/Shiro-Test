@@ -3,8 +3,11 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/LkSchool?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: root
+    url: jdbc:mysql://lksun.cn:3306/lkschool?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: lkschool
+    password: lkschool
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
+logging:
+  level:
+    root: info
