@@ -23,4 +23,5 @@ public class AdministratorsServiceImpl extends ServiceImpl<AdministratorsMapper,
         ew.eq("username",username);
         return this.getOne(ew);
     }
+
 }

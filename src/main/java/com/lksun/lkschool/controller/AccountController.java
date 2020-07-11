@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public CommonResult login(AdminLoginParam adminLoginParam){
-        System.out.println(adminLoginParam);
         // 获取Subject
         Subject subject = SecurityUtils.getSubject();
         // 封装用户数据
@@ -21,11 +20,10 @@ public class AccountController {
         try {
             subject.login(token);
         } catch (Exception e){
-            System.out.println("登录失败,账号或密码错误");
             return CommonResult.validateFailed("用户名或密码错误");
         }
 
-        return CommonResult.success(adminLoginParam);
+        return CommonResult.success(subject.getPrincipal());
     }
 
     @RequestMapping(value = "/register",method = RequestMethod.GET)
