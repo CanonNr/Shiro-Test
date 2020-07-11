@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author LkSchool
  * @since 2020-07-05
  */
-public interface IAdministratorsService extends IService<Administrators> {
-
+public interface AdministratorsService extends IService<Administrators> {
+    public Administrators getByUsername(String username);
 }

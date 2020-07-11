@@ -1,6 +1,6 @@
 package com.lksun.lkschool.config;
 
-import com.lksun.lkschool.common.utils.realm.UserRealm;
+import com.lksun.lkschool.common.utils.UserRealm;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
