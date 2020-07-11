@@ -28,11 +28,14 @@ public class ShiroConfig {
         // 设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(defaultSecurityManager);
 
-        // 过滤器
+        // 设置过滤器
         HashMap<String, String> filterMap = new HashMap<>();
-        filterMap.put("/login","anon");
-        filterMap.put("/baba","authc");
+        filterMap.put("/login","anon");  // login页面允许未登录访问
+        filterMap.put("/baba","authc");  // baba页面则不允许未登录访问
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
+
+        // 配置未登录跳转页
+        shiroFilterFactoryBean.setLoginUrl("/login");
         return shiroFilterFactoryBean;
     }
 
