@@ -23,7 +23,7 @@ public class LoginController {
         } catch (Exception e){
             return CommonResult.validateFailed("用户名或密码错误");
         }
-
+        // todo 返回 jwt token
         return CommonResult.success(subject.getPrincipal());
     }
 }

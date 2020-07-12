@@ -22,6 +22,7 @@ public class Administrators implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Integer id;
     /**
      * 用户名
      */
@@ -113,5 +114,13 @@ public class Administrators implements Serializable {
 
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
