@@ -24,7 +24,10 @@ class LkschoolApplicationTests {
 
 
         Claims claims = jwtTokenUtil.parseJWT(jwt);
+        System.out.println(claims.get("nickname"));
         System.out.println(claims);
     }
+
+
 
 }
