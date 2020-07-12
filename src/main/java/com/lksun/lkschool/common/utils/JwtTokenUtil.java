@@ -72,9 +72,10 @@ public class JwtTokenUtil {
                 //设置签名使用的签名算法和签名使用的秘钥
                 .signWith(signatureAlgorithm, key);
         if (expiration >= 0) {
-            long expMillis = nowMillis + expiration;
+            long expMillis = nowMillis + (expiration*1000);
             Date exp = new Date(expMillis);
             //设置过期时间
+            System.out.println(exp);
             builder.setExpiration(exp);
         }
         return builder.compact();
@@ -83,19 +84,26 @@ public class JwtTokenUtil {
 
     /**
      * Token的解密
-     * @param token 加密后的token
+     * @param authorization 加密后的token
      * @return
      */
-    public Claims parseJWT(String token) {
+    public Claims parseJWT(String authorization) {
+        String token = authorization.replace(tokenHead+" ", "");
         //签名秘钥，和生成的签名的秘钥一模一样
         String key = secret;
-
+        Claims claims = null;
         //得到DefaultJwtParser
-        return Jwts.parser()
-                //设置签名的秘钥
-                .setSigningKey(key)
-                //设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
+        try{
+            claims = Jwts.parser()
+                    //设置签名的秘钥
+                    .setSigningKey(key)
+                    //设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return claims;
     }
 
 
@@ -109,7 +117,7 @@ public class JwtTokenUtil {
         String token = authorization.replace(tokenHead+" ", "");
         //签名秘钥，和生成的签名的秘钥一模一样
         String key = secret;
-
+        System.out.println(token);
         try {
             //得到DefaultJwtParser
             Claims claims = Jwts.parser()
@@ -119,7 +127,7 @@ public class JwtTokenUtil {
                     .parseClaimsJws(token).getBody();
             System.out.println(claims);
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("123:"+e.getMessage());
             return false;
         }
 

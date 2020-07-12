@@ -16,7 +16,7 @@ public class LoginController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-    @RequestMapping(value = "/",method = RequestMethod.POST)
+    @RequestMapping(value = "",method = RequestMethod.POST)
     public CommonResult login(@RequestBody AdminLoginParam adminLoginParam){
         // 获取Subject
         Subject subject = SecurityUtils.getSubject();

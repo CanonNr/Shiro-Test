@@ -24,4 +24,10 @@ public class AdministratorsServiceImpl extends ServiceImpl<AdministratorsMapper,
         return this.getOne(ew);
     }
 
+    public Administrators getById(Integer id){
+        QueryWrapper<Administrators> ew = new QueryWrapper<Administrators>();
+        ew.eq("id",id);
+        return this.getOne(ew);
+    }
+
 }

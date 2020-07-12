@@ -14,5 +14,5 @@ logging:
 jwt:
   tokenHeader: Authorization
   secret: secret
-  expiration: 604800
+  expiration: 3600
   tokenHead: Bearer

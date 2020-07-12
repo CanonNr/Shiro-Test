@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AdministratorsService extends IService<Administrators> {
     public Administrators getByUsername(String username);
+    public Administrators getById(Integer id);
 }
