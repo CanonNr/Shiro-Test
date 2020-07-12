@@ -30,17 +30,22 @@ public class UserRealm extends AuthorizingRealm {
 //        UsernamePasswordToken user = (UsernamePasswordToken) authcToken;
 //        System.out.println("用户名：" + user.getUsername());
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-        String username = token.getUsername().trim();
-        String password = String.valueOf(token.getPassword());
+        try{
+            String username = token.getUsername().trim();
+            String password = String.valueOf(token.getPassword());
 
-        Administrators administrator = administratorsService.getByUsername(username);
-        if (administrator != null){
-            // 加密方式: 首先每个用户有独自的盐   md5(md5(明文密码).盐)
-            String passwordMd5 = DigestUtils.md5DigestAsHex(password.getBytes());
-            String s = DigestUtils.md5DigestAsHex((passwordMd5 + administrator.getSalt()).getBytes());
-            if (administrator.getPassword().equals(s)){
-                return new SimpleAuthenticationInfo(administrator,password,this.getName());
+            Administrators administrator = administratorsService.getByUsername(username);
+
+            if (administrator != null){
+                // 加密方式: 首先每个用户有独自的盐   md5(md5(明文密码).盐)
+                String passwordMd5 = DigestUtils.md5DigestAsHex(password.getBytes());
+                String s = DigestUtils.md5DigestAsHex((passwordMd5 + administrator.getSalt()).getBytes());
+                if (administrator.getPassword().equals(s)){
+                    return new SimpleAuthenticationInfo(administrator,password,this.getName());
+                }
             }
+        }catch (Exception e){
+            return null;
         }
 
         return null;

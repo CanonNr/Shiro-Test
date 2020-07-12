@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-public class AccountController {
+@RequestMapping("/api/v1")
+public class LoginController {
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public CommonResult login(AdminLoginParam adminLoginParam){
         // 获取Subject
@@ -24,10 +25,5 @@ public class AccountController {
         }
 
         return CommonResult.success(subject.getPrincipal());
-    }
-
-    @RequestMapping(value = "/register",method = RequestMethod.GET)
-    public String register(){
-        return "这是注册页";
     }
 }
