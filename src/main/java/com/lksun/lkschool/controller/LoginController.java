@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1")
 public class LoginController {
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
-    public CommonResult login(AdminLoginParam adminLoginParam){
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public CommonResult login(@RequestBody AdminLoginParam adminLoginParam){
         // 获取Subject
         Subject subject = SecurityUtils.getSubject();
         // 封装用户数据
