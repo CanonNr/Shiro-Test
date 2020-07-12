@@ -102,26 +102,28 @@ public class JwtTokenUtil {
     /**
      * 校验token
      * 在这里可以使用官方的校验，我这里校验的是token中携带的密码于数据库一致的话就校验通过
-     * @param token
-     * @param administrators
+     * @param authorization
      * @return
      */
-    public Boolean isVerify(String token, Administrators administrators) {
+    public Boolean isVerify(String authorization) {
+        String token = authorization.replace(tokenHead+" ", "");
         //签名秘钥，和生成的签名的秘钥一模一样
-        String key = administrators.getPassword();
+        String key = secret;
 
-        //得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                //设置签名的秘钥
-                .setSigningKey(key)
-                //设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
-
-        if (claims.get("password").equals(administrators.getPassword())) {
-            return true;
+        try {
+            //得到DefaultJwtParser
+            Claims claims = Jwts.parser()
+                    //设置签名的秘钥
+                    .setSigningKey(key)
+                    //设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+            System.out.println(claims);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
         }
 
-        return false;
+        return true;
     }
 
 }

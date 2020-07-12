@@ -10,14 +10,13 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/login")
 public class LoginController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/",method = RequestMethod.POST)
     public CommonResult login(@RequestBody AdminLoginParam adminLoginParam){
         // 获取Subject
         Subject subject = SecurityUtils.getSubject();
