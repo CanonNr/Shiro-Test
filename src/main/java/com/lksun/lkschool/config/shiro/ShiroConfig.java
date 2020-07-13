@@ -36,9 +36,11 @@ public class ShiroConfig {
 
         // 设置路由过滤规则
         HashMap<String, String> filterRuleMap  = new HashMap<>();
-//        filterRuleMap .put("/login","anon");  // login页面允许未登录访问
-//        filterRuleMap .put("/baba","authc");  // baba页面则不允许未登录访问
-        filterRuleMap .put("/**","jwt");
+        // 所有路由都要经过JWT的过滤
+        filterRuleMap.put("/**","jwt");
+        // 登录相关的则跳过
+        filterRuleMap .put("/api/v1/login/**","anon");
+
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap );
 
@@ -46,6 +48,7 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setLoginUrl("/login");
         return shiroFilterFactoryBean;
     }
+
 
     // 创建 ShiroWebSecurityManager
     @Bean(name = "defaultSecurityManager")

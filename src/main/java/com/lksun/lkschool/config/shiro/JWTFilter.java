@@ -1,11 +1,15 @@
 package com.lksun.lkschool.config.shiro;
 
+
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-import org.apache.shiro.web.util.WebUtils;
+
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
@@ -18,25 +22,62 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
 
+    /**
+     *
+     */
+    @Override
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String authorization = httpServletRequest.getHeader("Authorization");
+        System.out.println(authorization);
+//        JWTToken token = new JWTToken(authorization);
+////        // 提交给realm进行登入，如果错误他会抛出异常并被捕获
+//        getSubject(request, response).login(token);
+//        // 如果没有抛出异常则代表登入成功，返回true
 
+//        getSubject(request, response).
+        return true;
+    }
+
+
+    /**
+     * 如果isAccessAllowed返回true则onAccessDenied方法不会继续执行
+     * @param request
+     * @param response
+     * @param mappedValue
+     * @return
+     */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        String url = WebUtils.toHttp(request).getRequestURI();
+//        String url = WebUtils.toHttp(request).getRequestURI();
+        if (isLoginAttempt(request, response)) {
+            try {
+                executeLogin(request, response);
+            }catch (AuthenticationException e){
+                System.out.println(e.getMessage());
+            }catch(Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return true;
 
-        if (this.isLoginRequest(request, response)) {
-            return true;
-        }
-        boolean allowed = false;
-        try {
-            allowed = executeLogin(request, response);
-        } catch (IllegalStateException e) {
-            //not found any token
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return allowed || super.isPermissive(mappedValue);
+
+
     }
+
+    /**
+     * 将非法请求跳转到 /401
+     */
+    private void response401(ServletRequest req, ServletResponse resp) {
+        try {
+            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
+            httpServletResponse.sendRedirect("/401");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
 
 

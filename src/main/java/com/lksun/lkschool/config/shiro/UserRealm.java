@@ -21,6 +21,16 @@ public class UserRealm extends AuthorizingRealm {
         return null;
     }
 
+    // 必须重写 不然会有
+    // Realm [com.lksun.lkschool.config.shiro.UserRealm@71100e5b] does not support authentication token [com.lksun.lkschool.config.shiro.JWTToken@7f71918d].  Please ensure that the appropriate Realm implementation is configured correctly or that the realm accepts AuthenticationTokens of this type.
+    // 的错误
+
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        // TODO Auto-generated method stub
+        return token instanceof JWTToken;
+    }
+
     // 执行认证逻辑
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
@@ -29,6 +39,7 @@ public class UserRealm extends AuthorizingRealm {
 
 //        UsernamePasswordToken user = (UsernamePasswordToken) authcToken;
 //        System.out.println("用户名：" + user.getUsername());
+
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         try{
             String username = token.getUsername().trim();
@@ -49,7 +60,7 @@ public class UserRealm extends AuthorizingRealm {
         }
 
         return null;
-
+//
 
 
     }
