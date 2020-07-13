@@ -1,4 +1,4 @@
-package com.lksun.lkschool.common.utils;
+package com.lksun.lkschool.config.shiro;
 
 import com.lksun.lkschool.entity.Administrators;
 import com.lksun.lkschool.service.AdministratorsService;

@@ -1,6 +1,5 @@
-package com.lksun.lkschool.config;
+package com.lksun.lkschool.config.shiro;
 
-import com.lksun.lkschool.common.utils.UserRealm;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,16 +23,24 @@ public class ShiroConfig {
     // 创建 ShiroFilterFactoryBean
     @Bean
     public ShiroFilterFactoryBean getShiroFilterFactoryBean(){
+        // 实例化一个对象
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
         // 设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(defaultSecurityManager);
 
-        // 设置过滤器
-        HashMap<String, String> filterMap = new HashMap<>();
-        filterMap.put("/login","anon");  // login页面允许未登录访问
-        filterMap.put("/baba","authc");  // baba页面则不允许未登录访问
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
+        // 自定义过滤器
+        Map<String, Filter> filterMap = new HashMap<>();
+        filterMap.put("jwt", new JWTFilter());
+        shiroFilterFactoryBean.setFilters(filterMap);
+
+        // 设置路由过滤规则
+        HashMap<String, String> filterRuleMap  = new HashMap<>();
+//        filterRuleMap .put("/login","anon");  // login页面允许未登录访问
+//        filterRuleMap .put("/baba","authc");  // baba页面则不允许未登录访问
+        filterRuleMap .put("/**","jwt");
+
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap );
 
         // 配置未登录跳转页
         shiroFilterFactoryBean.setLoginUrl("/login");

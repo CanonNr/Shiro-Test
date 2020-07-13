@@ -125,9 +125,7 @@ public class JwtTokenUtil {
                     .setSigningKey(key)
                     //设置需要解析的jwt
                     .parseClaimsJws(token).getBody();
-            System.out.println(claims);
         }catch (Exception e){
-            System.out.println("123:"+e.getMessage());
             return false;
         }
 
