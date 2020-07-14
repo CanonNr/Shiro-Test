@@ -75,7 +75,6 @@ public class JwtTokenUtil {
             long expMillis = nowMillis + (expiration*1000);
             Date exp = new Date(expMillis);
             //设置过期时间
-            System.out.println(exp);
             builder.setExpiration(exp);
         }
         return builder.compact();
@@ -100,7 +99,6 @@ public class JwtTokenUtil {
                     //设置需要解析的jwt
                     .parseClaimsJws(token).getBody();
         }catch (Exception e){
-            System.out.println(e.getMessage());
             return null;
         }
         return claims;
@@ -117,7 +115,6 @@ public class JwtTokenUtil {
         String token = authorization.replace(tokenHead+" ", "");
         //签名秘钥，和生成的签名的秘钥一模一样
         String key = secret;
-        System.out.println(token);
         try {
             //得到DefaultJwtParser
             Claims claims = Jwts.parser()

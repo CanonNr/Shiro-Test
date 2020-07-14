@@ -27,26 +27,20 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+        // 获取到header
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String authorization = httpServletRequest.getHeader("Authorization");
-        System.out.println(authorization);
-//        JWTToken token = new JWTToken(authorization);
-////        // 提交给realm进行登入，如果错误他会抛出异常并被捕获
-//        getSubject(request, response).login(token);
-//        // 如果没有抛出异常则代表登入成功，返回true
-
-//        getSubject(request, response).
+        // 将token封装到JWTToken
+        JWTToken token = new JWTToken(authorization);
+        // 提交给realm进行登入，如果错误他会抛出异常并被捕获
+        getSubject(request, response).login(token);
+        // 如果没有抛出异常则代表登入成功，返回true
+        getSubject(request, response).login(token);
         return true;
     }
 
 
-    /**
-     * 如果isAccessAllowed返回true则onAccessDenied方法不会继续执行
-     * @param request
-     * @param response
-     * @param mappedValue
-     * @return
-     */
+    // 如果isAccessAllowed返回true则onAccessDenied方法不会继续执行
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 //        String url = WebUtils.toHttp(request).getRequestURI();
@@ -54,7 +48,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             try {
                 executeLogin(request, response);
             }catch (AuthenticationException e){
-                System.out.println(e.getMessage());
+                System.out.println(e.getMessage()+"123");
             }catch(Exception e) {
                 System.out.println(e.getMessage());
             }
