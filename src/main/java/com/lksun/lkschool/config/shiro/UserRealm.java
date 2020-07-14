@@ -40,10 +40,13 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
         String token = (String) authcToken.getPrincipal();
+        System.out.println("token:"+token);
+        Claims claims = null;
         try{
-            Claims claims = jwtTokenUtil.parseJWT(token);
-            System.out.println(claims);
+            claims = jwtTokenUtil.parseJWT(token);
+            System.out.println("claims:"+claims);
             if (claims != null){
+                System.out.println("ok");
                 return new SimpleAuthenticationInfo(claims,token,this.getName());
             }
         }catch (Exception e){

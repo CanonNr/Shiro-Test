@@ -32,8 +32,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         String authorization = httpServletRequest.getHeader("Authorization");
         // 将token封装到JWTToken
         JWTToken token = new JWTToken(authorization);
-        // 提交给realm进行登入，如果错误他会抛出异常并被捕获
-        getSubject(request, response).login(token);
         // 如果没有抛出异常则代表登入成功，返回true
         getSubject(request, response).login(token);
         return true;
@@ -47,10 +45,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         if (isLoginAttempt(request, response)) {
             try {
                 executeLogin(request, response);
-            }catch (AuthenticationException e){
-                System.out.println(e.getMessage()+"123");
             }catch(Exception e) {
-                System.out.println(e.getMessage());
+//                System.out.println(e.getMessage());
             }
         }
         return true;

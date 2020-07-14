@@ -1,6 +1,8 @@
 package com.lksun.lkschool.config.shiro;
 
 import org.apache.shiro.mgt.DefaultSecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
+import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,10 +56,21 @@ public class ShiroConfig {
     @Bean(name = "defaultSecurityManager")
     public DefaultWebSecurityManager setDefaultSecurityManager(){
         // 注意不要new错了 DefaultWebSecurityManager 、 DefaultSecurityManager 傻傻分不清楚
-        DefaultWebSecurityManager defaultSecurityManager = new DefaultWebSecurityManager();
-        // 设置域
-        defaultSecurityManager.setRealm(userRealm);
-        return defaultSecurityManager;
+        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
+        // 自定义域
+        defaultWebSecurityManager.setRealm(userRealm);
+        // 自定义的 session 会话管理器
+        defaultWebSecurityManager.setSessionManager(sessionManager());
+        return defaultWebSecurityManager;
+    }
+
+    @Bean
+    public SessionManager sessionManager() {
+        //将我们继承后重写的shiro session 注册
+        ShiroSession shiroSession = new ShiroSession();
+        //如果后续考虑多tomcat部署应用，可以使用shiro-redis开源插件来做session 的控制，或者nginx 的负载均衡
+        shiroSession.setSessionDAO(new EnterpriseCacheSessionDAO());
+        return shiroSession;
     }
 
     // 创建 Realm

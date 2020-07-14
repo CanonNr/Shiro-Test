@@ -22,10 +22,10 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 @ConfigurationProperties(prefix = "jwt")
 public class JwtTokenUtil {
 
-    private String secret;
-    private String tokenHeader;
-    private String tokenHead;
-    private Long expiration;
+    public String secret;
+    public String tokenHeader;
+    public String tokenHead;
+    public Long expiration;
 
     /**
      * 用户登录成功后生成Jwt
