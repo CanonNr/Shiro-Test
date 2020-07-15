@@ -1,6 +1,7 @@
 package com.lksun.lkschool.config.shiro;
 
 
+import com.lksun.lkschool.common.api.CommonResult;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 
@@ -10,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
@@ -37,38 +39,29 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         return true;
     }
 
-
-    // 如果isAccessAllowed返回true则onAccessDenied方法不会继续执行
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-//        String url = WebUtils.toHttp(request).getRequestURI();
-        if (isLoginAttempt(request, response)) {
-            try {
-                executeLogin(request, response);
-            }catch(Exception e) {
-//                System.out.println(e.getMessage());
-            }
-        }
-        return true;
-
-
-
-    }
-
-    /**
-     * 将非法请求跳转到 /401
-     */
-    private void response401(ServletRequest req, ServletResponse resp) {
         try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401");
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+            if (isLoginAttempt(request, response)) {
+                executeLogin(request, response);
+                return true;
+            }
+        }catch(Exception e) {
+            // log
         }
+        return false;
     }
 
-
-
-
-
+    // 只有 isAccessAllowed() 返回 false 才会执行本方法
+    // 如果继续返回 false 则表示拦截 , 返回 true 则继续处理
+    @Override
+    public boolean  onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
+        HttpServletResponse res = (HttpServletResponse)response;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setStatus(401);
+        res.setCharacterEncoding("UTF-8");
+        PrintWriter writer = res.getWriter();
+        writer.write("Unauthorized");
+        return false;
+    }
 }
