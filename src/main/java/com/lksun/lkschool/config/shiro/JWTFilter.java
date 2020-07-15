@@ -1,11 +1,6 @@
 package com.lksun.lkschool.config.shiro;
 
-
-import com.lksun.lkschool.common.api.CommonResult;
-import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
-
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -22,11 +17,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         String authorization = req.getHeader("Authorization");
         return authorization != null;
     }
-
-
-    /**
-     *
-     */
+    
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         // 获取到header

@@ -1,7 +1,6 @@
 package com.lksun.lkschool.config.shiro;
 
 import com.lksun.lkschool.common.utils.JwtTokenUtil;
-import com.lksun.lkschool.entity.Administrators;
 import com.lksun.lkschool.service.AdministratorsService;
 import io.jsonwebtoken.Claims;
 import org.apache.shiro.authc.*;
@@ -9,7 +8,6 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.DigestUtils;
 
 // 自定义一个 Realm
 public class UserRealm extends AuthorizingRealm {

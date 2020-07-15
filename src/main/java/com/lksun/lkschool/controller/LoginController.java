@@ -19,7 +19,7 @@ public class LoginController {
     AdministratorsService administratorsService;
 
     @RequestMapping(value = "",method = RequestMethod.POST)
-    public CommonResult login(@RequestBody AdminLoginParam adminLoginParam){
+    public CommonResult<Object> login(@RequestBody AdminLoginParam adminLoginParam){
         String username = adminLoginParam.getUsername();
         String password = adminLoginParam.getPassword();
         Administrators administrator = administratorsService.getByUsername(username);

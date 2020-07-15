@@ -20,7 +20,7 @@ public class UserController {
     AdministratorsService administratorsService;
 
     @RequestMapping(value = "/info",method = RequestMethod.GET)
-    public CommonResult info(@RequestHeader HttpHeaders headers){
+    public CommonResult<Object> info(@RequestHeader HttpHeaders headers){
         Claims claims = (Claims)SecurityUtils.getSubject().getPrincipal();
         Integer user_id = (Integer) claims.get("id");
         Administrators administrator = administratorsService.getById(user_id);
