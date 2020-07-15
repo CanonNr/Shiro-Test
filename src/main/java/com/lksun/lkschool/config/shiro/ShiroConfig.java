@@ -1,9 +1,12 @@
 package com.lksun.lkschool.config.shiro;
 
+import io.jsonwebtoken.Claims;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +21,9 @@ public class ShiroConfig {
 
     @Autowired
     UserRealm userRealm;
+
     @Autowired
     DefaultSecurityManager defaultSecurityManager;
-
 
     // 创建 ShiroFilterFactoryBean
     @Bean
